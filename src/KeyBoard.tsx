@@ -1,6 +1,18 @@
 import Keys from "./Keys.json";
 import styles from "./KeyBoard.module.css";
-export function KeyBoard() {
+
+type KeyboardProps = {
+  activeLetters: string[];
+  inactiveLetters: string[];
+  addGuessedLetter: (letter: string) => void;
+  disabled: boolean;
+};
+export function KeyBoard({
+  activeLetters,
+  inactiveLetters,
+  addGuessedLetter,
+  disabled = false,
+}: KeyboardProps) {
   return (
     <div
       style={{
@@ -10,7 +22,19 @@ export function KeyBoard() {
       }}
     >
       {Keys.map((key) => {
-        return <button className={styles.btn}>{key}</button>;
+        const isActive = activeLetters.includes(key);
+        const isInactive = inactiveLetters.includes(key);
+        return (
+          <button
+            className={`${styles.btn} ${isActive ? styles.active : ""}${
+              isInactive ? styles.inactive : ""
+            }`}
+            onClick={() => addGuessedLetter(key)}
+            disabled={isInactive || isActive || disabled}
+          >
+            {key}
+          </button>
+        );
       })}
     </div>
   );

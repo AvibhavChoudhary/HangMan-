@@ -1,11 +1,13 @@
 type GussedLetterProps = {
   wordToGuess: string;
   gussedLetters: string[];
+  reveal: boolean;
 };
 
 export function GuessedLetters({
   wordToGuess,
   gussedLetters,
+  reveal,
 }: GussedLetterProps) {
   return (
     <div
@@ -27,9 +29,12 @@ export function GuessedLetters({
           >
             <span
               style={{
-                visibility: gussedLetters.includes(letter)
-                  ? "visible"
-                  : "hidden",
+                visibility:
+                  gussedLetters.includes(letter) || reveal
+                    ? "visible"
+                    : "hidden",
+                color:
+                  !gussedLetters.includes(letter) && reveal ? "red" : "black",
               }}
             >
               {letter}
